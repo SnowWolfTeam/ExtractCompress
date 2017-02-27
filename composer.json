@@ -1,5 +1,5 @@
 {
-  "name":             "mastertang/ExtractCompress",
+  "name":             "mastertang/extractcompress",
   "description": "文件或文件夹的解压缩",
   "keywords":         ["Zip", "Compress", "Extract" ,"PHP" ,"php"],
   "time":             "2017-2-27",
