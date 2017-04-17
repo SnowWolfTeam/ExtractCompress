@@ -19,25 +19,20 @@ class ZipExtractCompress
 
     /**
      * 解压
-     * @param $zipfilePath
-     * @param $savePath
-     * @param $openType
-     * @return bool
-     * @throws ZipException
      */
     public function extractTo($zipfilePath, $savePath, $openType)
     {
         $result = false;
         if (!is_file($zipfilePath))
-            throw new ZipException('Zip文件不存在', ZipException::FILE_NOT_EXIST);
+            throw new ZipException('Zip文件不存在');
         $fileType = end(explode('.', $zipfilePath));
         if (empty($fileType) || $fileType != 'zip')
-            throw new ZipException('文件后缀不正确', ZipException::FILE_SUFFIX_ERROR);
+            throw new ZipException('文件后缀不正确');
         else {
             $zip = new \ZipArchive();
             $res = $zip->open($zipfilePath, $openType);
             if (!empty(self::$errType[$res]))
-                throw new ZipException(self::$errType[$res], ZipException::OPEN_FAILED);
+                throw new ZipException(self::$errType[$res]);
             else if ($res === true) {
                 $zip->extractTo($savePath);
                 $zip->close();
@@ -49,20 +44,15 @@ class ZipExtractCompress
 
     /**
      * 压缩
-     * @param $filePath
-     * @param $savePath
-     * @param $openType
-     * @return bool
-     * @throws ZipException
      */
     public function compressTo($filePath, $savePath, $openType)
     {
         $result = false;
         if (!is_file($filePath) && !is_dir($filePath))
-            throw new ZipException('要压缩的文件不存在', ZipException::FILE_NOT_EXIST);
+            throw new ZipException('要压缩的文件不存在');
         $fileType = end(explode('.', $savePath));
         if (empty($fileType) || $fileType != 'zip')
-            throw new ZipException('保存路径后缀不正确', ZipException::FILE_SUFFIX_ERROR);
+            throw new ZipException('保存路径后缀不正确');
         else {
             $zip = new \ZipArchive();
             $dir = dirname($savePath);
@@ -70,7 +60,7 @@ class ZipExtractCompress
                 mkdir($dir, 0775, true);
             $res = $zip->open($savePath, $openType);
             if (!$res && !empty(self::$errType[$res]))
-                throw new ZipException(self::$errType[$res], ZipException::OPEN_FAILED);
+                throw new ZipException(self::$errType[$res]);
             if (is_file($filePath))
                 $result = $this->fileAdd($zip, $filePath);
             else if (is_dir($filePath))

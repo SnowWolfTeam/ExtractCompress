@@ -1,17 +1,8 @@
 #文件解压缩
 
 #### 异常：
-* 异常错误码
-```
-    const FILE_NOT_EXIST = 0x1000;      //文件不存在
-    const FILE_SUFFIX_ERROR = 0x1001;   //文件后缀不正确    
-    const OPEN_FAILED = 0x1002;         //Zip打开方式错误
-```
-* 如何查看运行后的异常码和异常消息
-```
-    异常码: ExtractCompress::$exceptionCode 
-    异常消息: ExtractCompress::$exceptionMsg 
-```
+* 异常文件 : ZipExcepiton 类 : ZipException
+
 * 支持的解压缩类型
 ```
 1.Zip

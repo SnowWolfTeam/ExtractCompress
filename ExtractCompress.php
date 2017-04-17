@@ -1,54 +1,40 @@
 <?php
 namespace ExtractCompress;
 
-use ExtractCompress\Exception\ZipException;
+use ExtractCompress\ExtractCompressType\ZipExtractCompress;
 
 class ExtractCompress
 {
     private $zipInstance = NULL;
     private $setting = NULL;
-    public $exceptionCode = -1;
-    public $exceptionMsg = '';
 
     //解压开始
     public function zipExtractTo($filePath, $setting = [])
     {
-        try {
-            $this->makeSetting($filePath, $setting, 1);
-            if (empty($this->zipInstance))
-                $this->zipInstance = new \ExtractCompress\ExtractCompressType\ZipExtractCompress();
-            $result = $this->zipInstance->extractTo(
-                $this->setting['filePath'],
-                $this->setting['savePath'],
-                $this->setting['openType']
-            );
-            return $result ? $this->setting['savePath'] : false;
-        } catch (\Exception $e) {
-            $this->exceptionCode = $e->getCode();
-            $this->exceptionMsg = $e->getMessage();
-            return false;
-        }
+        $this->makeSetting($filePath, $setting, 1);
+        if (empty($this->zipInstance))
+            $this->zipInstance = new ZipExtractCompress();
+        $result = $this->zipInstance->extractTo(
+            $this->setting['filePath'],
+            $this->setting['savePath'],
+            $this->setting['openType']
+        );
+        return $result ? $this->setting['savePath'] : false;
     }
 
     //压缩结束
     public function zipCompress($filePath, $setting = [])
     {
-        try {
-            $this->makeSetting($filePath, $setting, 2);
-            $this->setting['savePath'] .= '.zip';
-            if (empty($this->zipInstance))
-                $this->zipInstance = new \ExtractCompress\ExtractCompressType\ZipExtractCompress();
-            $result = $this->zipInstance->compressTo(
-                $this->setting['filePath'],
-                $this->setting['savePath'],
-                $this->setting['openType']
-            );
-            return $result ? $this->setting['savePath'] : false;
-        } catch (\Exception $e) {
-            $this->exceptionCode = $e->getCode();
-            $this->exceptionMsg = $e->getMessage();
-            return false;
-        }
+        $this->makeSetting($filePath, $setting, 2);
+        $this->setting['savePath'] .= '.zip';
+        if (empty($this->zipInstance))
+            $this->zipInstance = new ZipExtractCompress();
+        $result = $this->zipInstance->compressTo(
+            $this->setting['filePath'],
+            $this->setting['savePath'],
+            $this->setting['openType']
+        );
+        return $result ? $this->setting['savePath'] : false;
     }
 
     private function makeSetting($filePath, $setting, $type)
